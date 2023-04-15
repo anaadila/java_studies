@@ -1,0 +1,1 @@
+Practical activities for initial study with the Java language.
