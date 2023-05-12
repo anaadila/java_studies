@@ -50,6 +50,14 @@ public class Main {
                 System.out.println("Preço: " + novoProduto.getPreco());
                 System.out.println("Data de Validade: " + novoProduto.getDataValidade());
                 System.out.println("--------------------");
+
+                Date hoje = new Date();
+
+                if(novoProduto.getDataValidade().after(hoje)) {
+                    System.out.println("*********************");
+                    System.err.println("CUIDADO - SEU PRODUTO ESTÁ VENCIDO!");
+                    System.out.println("*********************");
+                }
             }
         }
     }
