@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Produto {
     
-    private int id;
+    private Integer id;
     private String descricao;
-    private double preco;
+    private Double preco;
     private Date dataValidade;
 
-    public Produto(int id, String descricao, double preco, Date dataValidade) {
+    public Produto(Integer id, String descricao, Double preco, Date dataValidade) {
         this.descricao = descricao;
         this.id = id;
         this.preco = preco;
         this.dataValidade = dataValidade;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

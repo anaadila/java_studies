@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("--- PEDIDO DE VENDAS ---");
 
-        int option;
+        Integer option;
 
         do {
             System.out.println("1 - Cadastrar produto");
@@ -25,7 +25,7 @@ public class Main {
         } while(option !=0);
     }
 
-    public static void process(int option) throws Exception {
+    public static void process(Integer option) throws Exception {
         
         switch (option) {
             case 1: {
@@ -34,9 +34,9 @@ public class Main {
                 System.out.print("Qual a descrição que você deseja dar ao novo produto? ");
                 String descricao = scanner.nextLine();
                 System.out.print("Qual o ID você deseja dar ao novo produto? ");
-                int id = scanner.nextInt();
+                Integer id = scanner.nextInt();
                 System.out.print("Qual o preço do produto? ");
-                double preco = scanner.nextDouble();
+                Double preco = scanner.nextDouble();
                 System.out.print("Qual a data da validade do produto? ");
                 String dataString = scanner.next();
                 Date dataValidade = new SimpleDateFormat("dd/MM/yyyy").parse(dataString);
