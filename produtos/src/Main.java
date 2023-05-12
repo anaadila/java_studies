@@ -48,12 +48,13 @@ public class Main {
                 System.out.println("ID do produto: " + novoProduto.getId());
                 System.out.println("Descrição: " + novoProduto.getDescricao());
                 System.out.println("Preço: " + novoProduto.getPreco());
+                System.out.println("Preço arredondado: " + Math.round(novoProduto.getPreco()));
                 System.out.println("Data de Validade: " + novoProduto.getDataValidade());
                 System.out.println("--------------------");
 
                 Date hoje = new Date();
 
-                if(novoProduto.getDataValidade().after(hoje)) {
+                if(novoProduto.getDataValidade().before(hoje)) {
                     System.out.println("*********************");
                     System.err.println("CUIDADO - SEU PRODUTO ESTÁ VENCIDO!");
                     System.out.println("*********************");
