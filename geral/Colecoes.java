@@ -9,17 +9,23 @@ public class Colecoes {
         valores[2] = 20;
         valores[3] = 25;
 
-        for (int valor: valores) {
-            System.out.println(valor);
-        }
-
-        System.out.println("-----------");
-
         for (int i = 0; i < valores.length; i++) {
             System.out.println(valores[i]);
         }
 
-        /*Arrays como os acima, são criados com valor já limitado, as collections como ArrayList, LinkedList e HashSet podem ter valores ilimitados */
+
+        int[] valoresReverso = new int[valores.length];
+        int posicaoMaxima = valores.length - 1;
+
+        for (int i = posicaoMaxima; i >= 0; i--) {
+            valoresReverso[posicaoMaxima - i] = valores[i];
+        }
+
+        System.out.println("-------------");
+
+        for (int valor: valoresReverso) {
+            System.out.println(valor);
+        }
 
     }
 }
