@@ -2,9 +2,13 @@ import models.Produto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
+import db.ProdutosDB;
+
 public class Main {
+    static ProdutosDB produtosDB = new ProdutosDB();
     
     public static void main(String[] args) throws Exception {
         System.out.println("--- PEDIDO DE VENDAS ---");
@@ -12,11 +16,14 @@ public class Main {
         Integer option;
 
         do {
+            System.out.println("");
             System.out.println("1 - Cadastrar produto");
+            System.out.println("2 - Listar produtos cadastrados");
             System.out.println("0 - Sair");
 
             Scanner scanner= new Scanner(System.in);
             
+            System.out.println("");
             System.out.print("Qual operação você deseja realizar? ");
             option = scanner.nextInt();
 
@@ -31,6 +38,7 @@ public class Main {
             case 1: {
                 Scanner scanner= new Scanner(System.in);
 
+                System.out.println("");
                 System.out.print("Qual a descrição que você deseja dar ao novo produto? ");
                 String descricao = scanner.nextLine();
                 System.out.print("Qual o ID você deseja dar ao novo produto? ");
@@ -42,23 +50,32 @@ public class Main {
                 Date dataValidade = new SimpleDateFormat("dd/MM/yyyy").parse(dataString);
         
                 Produto novoProduto = new Produto(id, descricao, preco, dataValidade);
-        
-                System.out.println("Produto criado com sucesso!");
-                System.out.println("--------------------");
-                System.out.println("ID do produto: " + novoProduto.getId());
-                System.out.println("Descrição: " + novoProduto.getDescricao());
-                System.out.println("Preço: " + novoProduto.getPreco());
-                System.out.println("Preço arredondado: " + Math.round(novoProduto.getPreco()));
-                System.out.println("Data de Validade: " + novoProduto.getDataValidade());
-                System.out.println("--------------------");
 
-                Date hoje = new Date();
+                produtosDB.addNovoProduto(novoProduto);
+                break;
+            }
 
-                if(novoProduto.getDataValidade().before(hoje)) {
-                    System.out.println("*********************");
-                    System.err.println("CUIDADO - SEU PRODUTO ESTÁ VENCIDO!");
-                    System.out.println("*********************");
+            case 2: {
+                List<Produto> listaDeProdutos = produtosDB.getProdutosList();
+
+                for (Produto produto: listaDeProdutos) {
+                    System.out.println("--------------------");
+                    System.out.println("ID do produto: " + produto.getId());
+                    System.out.println("Descrição: " + produto.getDescricao());
+                    System.out.println("Preço: " + produto.getPreco());
+                    System.out.println("Preço arredondado: " + Math.round(produto.getPreco()));
+                    System.out.println("Data de Validade: " + produto.getDataValidade());
+                    Date hoje = new Date();
+                    if(produto.getDataValidade().before(hoje)) {
+                        System.err.println("*** CUIDADO - SEU PRODUTO ESTÁ VENCIDO! ***");
+                    }
+                    System.out.println("--------------------");
                 }
+                break;
+            }
+            default: {
+                System.out.println("\nOpção inválida.\nEscolha uma das opções listadas, por favor.\n");
+                break;
             }
         }
     }
