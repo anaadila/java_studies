@@ -1,10 +1,11 @@
 package geral;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Colecoes {
     
     public static void main(String[] args) {
-        ArrayList<String> colecao = new ArrayList<>();
+        List<String> colecao = new LinkedList<>();
         colecao.add("Carro");
         colecao.add("Moto");
         colecao.add("Barco");
@@ -27,6 +28,6 @@ public class Colecoes {
             System.err.println(colecao.get(i));
         }
 
-        
+
     }
 }
