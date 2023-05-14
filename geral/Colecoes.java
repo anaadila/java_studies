@@ -1,25 +1,25 @@
 package geral;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Colecoes {
     
     public static void main(String[] args) {
-        Set<String> colecao = new HashSet<>();
-        colecao.add("Carro");
-        colecao.add("Moto");
-        
-        System.out.println(colecao.add("Barco"));
-        System.out.println(colecao.add("Carro"));
+        int[] valores = new int[4];
+        valores[0] = 10;
+        valores[1] = 15;
+        valores[2] = 20;
+        valores[3] = 25;
 
-        System.err.println("---------------");
-
-        for (String veiculo: colecao) {
-            System.out.println(veiculo);
+        for (int valor: valores) {
+            System.out.println(valor);
         }
 
-        
+        System.out.println("-----------");
 
+        for (int i = 0; i < valores.length; i++) {
+            System.out.println(valores[i]);
+        }
+
+        /*Arrays como os acima, são criados com valor já limitado, as collections como ArrayList, LinkedList e HashSet podem ter valores ilimitados */
 
     }
 }
