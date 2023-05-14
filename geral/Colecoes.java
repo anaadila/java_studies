@@ -1,18 +1,16 @@
 package geral;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Colecoes {
     
     public static void main(String[] args) {
-        List<String> colecao = new LinkedList<>();
+        Set<String> colecao = new HashSet<>();
         colecao.add("Carro");
         colecao.add("Moto");
-        colecao.add("Barco");
-        colecao.add("Carro");
-
-        System.out.println(colecao.get(0));
-        System.out.println(colecao.get(2));
+        
+        System.out.println(colecao.add("Barco"));
+        System.out.println(colecao.add("Carro"));
 
         System.err.println("---------------");
 
@@ -20,13 +18,7 @@ public class Colecoes {
             System.out.println(veiculo);
         }
 
-        System.err.println("---------------");
         
-        colecao.remove(0);
-
-        for (int i = 0; i < colecao.size(); i++) {
-            System.err.println(colecao.get(i));
-        }
 
 
     }
