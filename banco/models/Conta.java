@@ -1,19 +1,31 @@
 package models;
 
+import java.text.ParseException;
+
 public abstract class Conta {
 
     private Integer numero;
     private Integer agencia;
     private String banco;
+    private TipoConta tipoConta;
     protected Double saldo;
 
-    public Conta(Integer numero, Integer agencia, String banco, Double saldo) {
+    public Conta(TipoConta tipoConta, Integer numero, Integer agencia, String banco, Double saldo) {
+        this.tipoConta = tipoConta;
         this.numero = numero;
         this.agencia = agencia;
         this.banco = banco;
         this.saldo = saldo;
     }
 
+    public TipoConta getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoConta tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+    
     public Integer getNumero() {
         return numero;
     }
@@ -43,6 +55,10 @@ public abstract class Conta {
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
+
+    public abstract Double sacar(Double saldo) throws ParseException;
+
+    public abstract Double depositar(Double saldo);
 
     @Override
     public String toString() {
