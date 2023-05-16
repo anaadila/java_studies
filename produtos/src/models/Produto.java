@@ -9,9 +9,8 @@ public class Produto {
     private Double preco;
     private Date dataValidade;
 
-    public Produto(Integer id, String descricao, Double preco, Date dataValidade) {
+    public Produto(String descricao, Double preco, Date dataValidade) {
         this.descricao = descricao;
-        this.id = id;
         this.preco = preco;
         this.dataValidade = dataValidade;
     }

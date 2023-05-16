@@ -13,6 +13,8 @@ public class ProdutosDB {
     }
 
     public void addNovoProduto(Produto produto) {
+        Integer id = produtosList.size() + 1;
+        produto.setId(id);
         produtosList.add(produto);
     }
 }
