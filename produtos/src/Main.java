@@ -1,5 +1,6 @@
 import models.Admin;
 import models.Cliente;
+import models.Estoque;
 import models.Produto;
 import models.Usuario;
 
@@ -8,12 +9,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import db.EstoqueDB;
 import db.ProdutosDB;
 import db.UsuariosDB;
 
 public class Main {
     static ProdutosDB produtosDB = new ProdutosDB();
     static UsuariosDB usuariosDB = new UsuariosDB();
+    static EstoqueDB estoqueDB = new EstoqueDB();
     
     public static void main(String[] args) throws Exception {
         System.out.println("--- PEDIDO DE VENDAS ---");
@@ -27,6 +30,8 @@ public class Main {
             System.out.println("3 - Cadastrar usuário ADMINISTRADOR");
             System.out.println("4 - Cadastrar usuário CLIENTE");
             System.out.println("5 - Listar todos usuários cadastrados");
+            System.out.println("6 - Cadastrar novo estoque de produtos");
+            System.out.println("7 - Listar todos os estoques");
             System.out.println("0 - Sair");
 
             Scanner scanner= new Scanner(System.in);
@@ -72,7 +77,7 @@ public class Main {
                     System.out.println("Data de Validade: " + produto.getDataValidade());
                     Date hoje = new Date();
                     if(produto.getDataValidade().before(hoje)) {
-                        System.err.println("*** CUIDADO - SEU PRODUTO ESTÁ VENCIDO! ***");
+                        System.out.println("*** CUIDADO - SEU PRODUTO ESTÁ VENCIDO! ***");
                     }
                     System.out.println("--------------------");
                 }
@@ -103,13 +108,50 @@ public class Main {
                 break;
             }
             case 5: {
-                System.err.println("------------------");
+                System.out.println("--- LISTA DE USUÁRIOS ---");
 
                 for(Usuario usuario: usuariosDB.getUsuarioList()) {
                     System.out.println("ID: " + usuario.getId());
                     System.out.println("NOME: " + usuario.getNome());
                     System.out.println("TIPO: " + usuario.getTipoUsuario());
-                    System.err.println("------------------");
+                    System.out.println("------------------");
+                }
+                break;
+            }
+            case 6: {
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println("--- Cadastro de Estoque ---");
+
+                System.out.print("Qual o identificador do estoque: ");
+                String id = scanner.next();
+                System.out.print("Qual o produto que será adicionado ao estoque (Informe o ID): ");
+                Integer produtoId = scanner.nextInt();
+
+                Produto produto = produtosDB.getProdutoPorID(produtoId);
+                System.out.println("---");
+                System.out.println("Produto ID: " + produto.getId());
+                System.out.println("Produto Descrição: " + produto.getDescricao());
+                System.out.println("Produto Validade: " + produto.getDataValidade());
+                System.out.println("---");
+
+                System.out.print("Qual a quantidade de produtos a ser adicionada em estoque: ");
+                Integer quantidade = scanner.nextInt();
+
+                Estoque novoEstoque = new Estoque(id, produto, quantidade);
+                estoqueDB.addNovoEstoque(novoEstoque);
+
+                break;
+            }
+            case 7: {
+                System.out.println("--- ESTOQUES CADASTRADOS ---");
+
+                for(Estoque estoque: estoqueDB.getEstoqueList()) {
+                    System.out.println("ID: " + estoque.getId());
+                    System.out.println("PRODUTO: " + estoque.getProduto().getDescricao());
+                    System.out.println("PREÇO: " + estoque.getProduto().getPreco());
+                    System.out.println("QUANTIDADE DO PRODUTO: " + estoque.getQuantidade());
+                    System.out.println("------------------");
                 }
                 break;
             }

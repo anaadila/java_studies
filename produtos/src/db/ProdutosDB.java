@@ -1,20 +1,30 @@
 package db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Produto;
 
 public class ProdutosDB {
-    private List<Produto> produtosList = new ArrayList<>();
+    private Map<Integer, Produto> produtosMap = new HashMap<>();
 
     public List<Produto> getProdutosList() {
-        return produtosList;
+        List<Produto> produtos = new ArrayList<>();
+        for(Map.Entry<Integer, Produto> produto: produtosMap.entrySet()) {
+            produtos.add(produto.getValue());
+        }
+        return produtos;
     }
 
     public void addNovoProduto(Produto produto) {
-        Integer id = produtosList.size() + 1;
+        Integer id = produtosMap.size() + 1;
         produto.setId(id);
-        produtosList.add(produto);
+        produtosMap.put(produto.getId(), produto);
+    }
+
+    public Produto getProdutoPorID(Integer id) {
+        return produtosMap.get(id);
     }
 }
