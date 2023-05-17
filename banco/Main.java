@@ -23,7 +23,7 @@ public class Main {
             System.out.println("3 - Cadastrar Conta Salário");
             System.out.println("4 - Listar Contas");
             System.out.println("5 - Fazer operação com conta");
-            System.out.println("6 - Banco Adila");
+            System.out.println("6 - Admin");
             System.out.println("0 - Sair");
 
             Scanner scanner= new Scanner(System.in);
@@ -116,8 +116,8 @@ public class Main {
             case 4: {
 
                 if (contasBancoAdila.getContasBancoAdilaList().size() > 0) {
-                    System.err.println("--------------------------");
-                    System.err.println("--- CONTAS BANCO ÁDILA ---");
+                    System.out.println("--------------------------");
+                    System.out.println("--- CONTAS BANCO ÁDILA ---");
     
                     for(Conta contaBancoAdila: contasBancoAdila.getContasBancoAdilaList()) {
                         System.out.println("Banco: " + contaBancoAdila.getBanco());
@@ -125,16 +125,16 @@ public class Main {
                         System.out.println("Agência: " + contaBancoAdila.getAgencia());
                         System.out.println("Conta: " + contaBancoAdila.getNumero());
                         System.out.println("Saldo: " + contaBancoAdila.getSaldo());
-                        System.err.println("--------------------------");
+                        System.out.println("--------------------------");
                     }
                 } else if (contasBancoAdila.getContasBancoAdilaList().isEmpty()) {
-                    System.err.println("---------------------------------");
-                    System.err.println("--- SEM CONTAS NO BANCO ÁDILA ---");
+                    System.out.println("---------------------------------");
+                    System.out.println("--- SEM CONTAS NO BANCO ÁDILA ---");
                 }
 
                 if (contasDB.getContasList().size() > 0) {
-                    System.err.println("----------------------------");
-                    System.err.println("--- CONTAS DEMAIS BANCOS ---");
+                    System.out.println("----------------------------");
+                    System.out.println("--- CONTAS DEMAIS BANCOS ---");
     
                     for(Conta conta: contasDB.getContasList()) {
                         System.out.println("Banco: " + conta.getBanco());
@@ -142,76 +142,98 @@ public class Main {
                         System.out.println("Agência: " + conta.getAgencia());
                         System.out.println("Conta: " + conta.getNumero());
                         System.out.println("Saldo: " + conta.getSaldo());
-                        System.err.println("--------------------------");
+                        System.out.println("--------------------------");
                     }
                 } else if (contasDB.getContasList().isEmpty()) {
-                    System.err.println("-------------------------------------");
-                    System.err.println("--- SEM CONTAS NOS DEMAIS BANCOS ---");
-                    System.err.println("-------------------------------------");
+                    System.out.println("-------------------------------------");
+                    System.out.println("--- SEM CONTAS NOS DEMAIS BANCOS ---");
+                    System.out.println("-------------------------------------");
                 }
                 
                 break;
             }
             case 5: {
                 Scanner scanner= new Scanner(System.in);
-                List<Conta> listaDeContas = contasDB.getContasList();
+                Conta conta;
 
                 System.out.println("");
-                System.out.print("Número da conta que deseja realizar a operação: ");
-                Integer numConta = scanner.nextInt();
+                System.out.println("Informe as informações abaixo referente a conta que deseja realizar a operação: ");
+                System.out.print("Seu banco é o Banco Ádila? (S/N): ");
+                String bancoAdila = scanner.next();
+                System.out.print("Agência: ");
+                String agenciaConta = scanner.next();
+                System.out.print("Conta: ");
+                String numConta = scanner.next();
 
-                for (Conta conta: listaDeContas) {
-                    if (conta.getNumero().equals(numConta)) {
-                        System.out.println("");
-                        System.out.println("| 1 - Sacar | 2 - Depositar |");
-                        System.out.print("Qual operação deseja fazer (1 ou 2)? ");
-                        Integer optionOperacao = scanner.nextInt();
-                        System.out.print("Valor: ");
-                        Double valor = scanner.nextDouble();
+                System.out.println("");
+                System.out.println("| 1 - Sacar | 2 - Depositar | 3 - Transferência |");
+                System.out.print("Qual operação deseja fazer (1, 2 ou 3)? ");
+                Integer optionOperacao = scanner.nextInt();
+                System.out.print("Valor: ");
+                Double valor = scanner.nextDouble();
 
-                        if (optionOperacao == 1) {
-                            conta.sacar(valor);
-                            System.out.println("Saldo restante: " + conta.getSaldo());
-                        } else if (optionOperacao == 2) {
-                            conta.depositar(valor);
-                            System.out.println("Saldo restante: " + conta.getSaldo());
-                        }
-                        break;
+                if (optionOperacao == 1) {
+                    if (bancoAdila.equals("S")) {
+                        conta = contasBancoAdila.getContaPorID(agenciaConta + '-' + numConta);
+                        conta.sacar(valor);
+                        System.out.println("Saldo restante: " + conta.getSaldo());
+                    } else if (bancoAdila.equals("N")) {
+                        conta = contasDB.getContaPorID(agenciaConta + '-' + numConta);
+                        conta.sacar(valor);
+                        System.out.println("Saldo restante: " + conta.getSaldo());
+                    }
+                } else if (optionOperacao == 2) {
+                    if (bancoAdila.equals("S")) {
+                        conta = contasBancoAdila.getContaPorID(agenciaConta + '-' + numConta);
+                        conta.depositar(valor);
+                        System.out.println("Saldo restante: " + conta.getSaldo());
+                    } else if (bancoAdila.equals("N")) {
+                        conta = contasDB.getContaPorID(agenciaConta + '-' + numConta);
+                        conta.depositar(valor);
+                        System.out.println("Saldo restante: " + conta.getSaldo());
+                    }
+                } else if (optionOperacao == 3) {
+                    System.out.println("Atenção! Contas do Banco Ádila só podem realizar transferência entre contas do mesmo banco.");
+                    if (bancoAdila.equals("S")) {
+                        conta = contasBancoAdila.getContaPorID(agenciaConta + '-' + numConta);
+                        //conta.transferir
+                        System.out.println("Saldo restante: " + conta.getSaldo());
+                    } else if (bancoAdila.equals("N")) {
+                        conta = contasDB.getContaPorID(agenciaConta + '-' + numConta);
+                        //conta.transferir
+                        System.out.println("Saldo restante: " + conta.getSaldo());
                     }
                 }
+                
                 break;
             }
             case 6: {
                 Scanner scanner= new Scanner(System.in);
+                Double saldoTotalBancoAdila = 0.0d;
+                Double saldoTotalBancos = 0.0d;
 
-                System.out.println("--- BEM VINDO AO BANCO ÁDILA ---");
-                System.out.println("Aqui você consegue realizar transferências entre suas contas e visualizar o saldo total do banco (Admin)");
-
-                List<Conta> listaDeContas = contasBancoAdila.getContasBancoAdilaList();
-
+                System.out.println("--- BEM VINDO A SESSÃO DE ADMIN ---");
                 System.out.println("");
-                System.out.print("Número da conta que deseja realizar a operação: ");
-                Integer numConta = scanner.nextInt();
+                System.out.println("| 1 - Visualizar saldo total do Banco Ádila | 2 - Visualizar saldo total dos demais bancos |");
+                System.out.print("Qual operação deseja fazer (1 ou 2)? ");
+                Integer optionOperacao = scanner.nextInt();
 
-                for (Conta conta: listaDeContas) {
-                    if (conta.getNumero().equals(numConta)) {
-                        System.out.println("");
-                        System.out.println("| 1 - Sacar | 2 - Depositar |");
-                        System.out.print("Qual operação deseja fazer (1 ou 2)? ");
-                        Integer optionOperacao = scanner.nextInt();
-                        System.out.print("Valor: ");
-                        Double valor = scanner.nextDouble();
 
-                        if (optionOperacao == 1) {
-                            conta.sacar(valor);
-                            System.out.println("Saldo restante: " + conta.getSaldo());
-                        } else if (optionOperacao == 2) {
-                            conta.depositar(valor);
-                            System.out.println("Saldo restante: " + conta.getSaldo());
-                        }
-                        break;
+                if (optionOperacao == 1 ) {
+                    for(Conta contaBancoAdila: contasBancoAdila.getContasBancoAdilaList()) {
+                        saldoTotalBancoAdila += contaBancoAdila.getSaldo();
                     }
+                    System.out.println("");
+                    System.out.println("Saldo total do Banco Ádila: R$" + saldoTotalBancoAdila);
+                } else if (optionOperacao == 2) {
+                    for(Conta contaBanco: contasDB.getContasList()) {
+                        saldoTotalBancos += contaBanco.getSaldo();
+                    }
+                    System.out.println("");
+                    System.out.println("Saldo total dos demais Bancos: R$" + saldoTotalBancos);
                 }
+                
+                
                 break;
             }
             default: {
