@@ -1,20 +1,36 @@
 package db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Conta;
 
 public class ContasDB {
     
-    private List<Conta> contasList = new ArrayList<>();
+    private Map<String, Conta> contasDBMap = new HashMap<>();
 
-    public List<Conta> getContasList() {
-        return contasList;
+    public Map<String, Conta> getContasDBMap() {
+        return contasDBMap;
     }
 
+    public List<Conta> getContasList() {
+        List<Conta> contasDBList = new ArrayList<>();
+        for(Map.Entry<String, Conta> conta: contasDBMap.entrySet()) {
+            contasDBList.add(conta.getValue());
+        }
+
+        return contasDBList;
+    }
+    
+
     public void addNovaConta(Conta conta) {
-        contasList.add(conta);
+        contasDBMap.put(conta.getContaBanco(), conta);
+    }
+
+    public Conta getContaPorID(String id) {
+        return contasDBMap.get(id);
     }
 
 }

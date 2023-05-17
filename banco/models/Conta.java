@@ -60,6 +60,10 @@ public abstract class Conta {
 
     public abstract Double depositar(Double saldo);
 
+    public String getContaBanco() {
+        return this.agencia + "-" + this.numero;
+    }
+
     @Override
     public String toString() {
         return "Conta {" +
