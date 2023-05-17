@@ -1,5 +1,6 @@
 package db;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +25,17 @@ public class ContasDB {
         return contasDBList;
     }
     
-
     public void addNovaConta(Conta conta) {
         contasDBMap.put(conta.getContaBanco(), conta);
     }
 
     public Conta getContaPorID(String id) {
         return contasDBMap.get(id);
+    }
+
+    public void transferir(Conta origem, Conta destino, Double valor) throws ParseException {
+        origem.sacar(valor);
+        destino.depositar(valor);
     }
 
     public Double valorTotal() {

@@ -193,18 +193,28 @@ public class Main {
                         System.out.println("Saldo restante: " + conta.getSaldo());
                     }
                 } else if (optionOperacao == 3) {
-                    System.out.println("Atenção! Contas do Banco Ádila só podem realizar transferência entre contas do mesmo banco.");
+                    System.out.println("Atenção! Contas do Banco Ádila só podem realizar e receber transferência entre contas do mesmo banco.");
+                    System.out.println("");
+                    System.out.println("Informe as informações abaixo referente a conta que deseja transferir: ");
+                    System.out.print("Agência: ");
+                    String agenciaContaDestino = scanner.next();
+                    System.out.print("Conta: ");
+                    String numContaDestino = scanner.next();
+
                     if (bancoAdila.equals("S")) {
-                        conta = contasBancoAdila.getContaPorID(agenciaConta + '-' + numConta);
-                        //conta.transferir
-                        System.out.println("Saldo restante: " + conta.getSaldo());
+                        Conta contaOrigem = contasBancoAdila.getContaPorID(agenciaConta + '-' + numConta);
+                        Conta contaDestino = contasBancoAdila.getContaPorID(agenciaContaDestino + '-' + numContaDestino);
+
+                        contasBancoAdila.transferir(contaOrigem, contaDestino, valor);
+                        System.out.println("Saldo restante: " + contaOrigem.getSaldo());
                     } else if (bancoAdila.equals("N")) {
-                        conta = contasDB.getContaPorID(agenciaConta + '-' + numConta);
-                        //conta.transferir
-                        System.out.println("Saldo restante: " + conta.getSaldo());
+                        Conta contaOrigem = contasDB.getContaPorID(agenciaConta + '-' + numConta);
+                        Conta contaDestino = contasDB.getContaPorID(agenciaContaDestino + '-' + numContaDestino);
+                        
+                        contasDB.transferir(contaOrigem, contaDestino, valor);
+                        System.out.println("Saldo restante: " + contaOrigem.getSaldo());
                     }
                 }
-                
                 break;
             }
             case 6: {
@@ -216,7 +226,6 @@ public class Main {
                 System.out.print("Qual operação deseja fazer (1 ou 2)? ");
                 Integer optionOperacao = scanner.nextInt();
 
-
                 if (optionOperacao == 1 ) {
                     System.out.println("");
                     System.out.println("Saldo total do Banco Ádila: R$" + contasBancoAdila.valorTotal());
@@ -224,8 +233,6 @@ public class Main {
                     System.out.println("");
                     System.out.println("Saldo total dos demais Bancos: R$" + contasDB.valorTotal());
                 }
-                
-                
                 break;
             }
             default: {

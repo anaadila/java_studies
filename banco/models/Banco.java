@@ -1,5 +1,6 @@
 package models;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,9 @@ public class Banco {
         return contasBancoAdilaMap.get(id);
     }
     
-    public void tranferir(Conta origem, Conta destino) {
-        //
+    public void transferir(Conta origem, Conta destino, Double valor) throws ParseException {
+        origem.sacar(valor);
+        destino.depositar(valor);
     }
 
     public Double valorTotal() {
