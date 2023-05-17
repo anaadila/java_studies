@@ -1,6 +1,6 @@
 package models;
 
-public class ContaSalario extends Conta{
+public class ContaSalario extends Conta implements Tributavel {
     
     private Integer quantidadeSaque = 0;
 
@@ -9,7 +9,7 @@ public class ContaSalario extends Conta{
     }
 
     public Double getSaldo() {
-        return this.saldo;
+        return this.saldo - getValorImposto();
     }
 
     public Double sacar(Double saldo){
@@ -27,4 +27,7 @@ public class ContaSalario extends Conta{
         return this.saldo;
     }
 
+    public Double getValorImposto() {
+        return this.saldo * 0.01;
+    }
 }
