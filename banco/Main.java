@@ -209,8 +209,6 @@ public class Main {
             }
             case 6: {
                 Scanner scanner= new Scanner(System.in);
-                Double saldoTotalBancoAdila = 0.0d;
-                Double saldoTotalBancos = 0.0d;
 
                 System.out.println("--- BEM VINDO A SESSÃO DE ADMIN ---");
                 System.out.println("");
@@ -220,17 +218,11 @@ public class Main {
 
 
                 if (optionOperacao == 1 ) {
-                    for(Conta contaBancoAdila: contasBancoAdila.getContasBancoAdilaList()) {
-                        saldoTotalBancoAdila += contaBancoAdila.getSaldo();
-                    }
                     System.out.println("");
-                    System.out.println("Saldo total do Banco Ádila: R$" + saldoTotalBancoAdila);
+                    System.out.println("Saldo total do Banco Ádila: R$" + contasBancoAdila.valorTotal());
                 } else if (optionOperacao == 2) {
-                    for(Conta contaBanco: contasDB.getContasList()) {
-                        saldoTotalBancos += contaBanco.getSaldo();
-                    }
                     System.out.println("");
-                    System.out.println("Saldo total dos demais Bancos: R$" + saldoTotalBancos);
+                    System.out.println("Saldo total dos demais Bancos: R$" + contasDB.valorTotal());
                 }
                 
                 

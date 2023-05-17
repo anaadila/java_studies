@@ -33,4 +33,13 @@ public class ContasDB {
         return contasDBMap.get(id);
     }
 
+    public Double valorTotal() {
+        Double saldoTotalBancos = 0.0d;
+        for(Conta contaBanco: getContasList()) {
+            saldoTotalBancos += contaBanco.getSaldo();
+        }
+        return saldoTotalBancos;
+    }
+
+
 }

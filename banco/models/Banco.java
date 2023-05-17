@@ -35,7 +35,10 @@ public class Banco {
     }
 
     public Double valorTotal() {
-        //
-        return 0.0;
+        Double saldoTotalBancoAdila = 0.0d;
+        for(Conta contaBancoAdila: getContasBancoAdilaList()) {
+            saldoTotalBancoAdila += contaBancoAdila.getSaldo();
+        }
+        return saldoTotalBancoAdila;
     }
 }
