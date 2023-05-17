@@ -1,6 +1,6 @@
 package models;
 
-public class ContaCorrente extends Conta {
+public class ContaCorrente extends Conta  implements Tributavel {
 
     private Double chequeEspecial;
     private Double limiteSaque;
@@ -27,6 +27,10 @@ public class ContaCorrente extends Conta {
     public Double depositar(Double saldo){
         this.saldo = this.saldo + saldo;
         return this.saldo;
+    }
+
+    public Double getValorImposto() {
+        return this.getSaldo() * 0.01;
     }
 
     @Override
