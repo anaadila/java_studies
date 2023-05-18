@@ -1,9 +1,5 @@
-import models.Admin;
-import models.Cliente;
-import models.Estoque;
-import models.PedidoVenda;
-import models.Produto;
-import models.Usuario;
+import models.*;
+import validadores.ValidadorPedidoVenda;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +16,7 @@ public class Main {
     static UsuariosDB usuariosDB = new UsuariosDB();
     static EstoqueDB estoqueDB = new EstoqueDB();
     static PedidosVendaDB pedidosVendaDB = new PedidosVendaDB();
-    
+
     public static void main(String[] args) throws Exception {
         System.out.println("--- PEDIDO DE VENDAS ---");
 
@@ -39,22 +35,22 @@ public class Main {
             System.out.println("9 - Listar pedidos de venda");
             System.out.println("0 - Sair");
 
-            Scanner scanner= new Scanner(System.in);
-            
+            Scanner scanner = new Scanner(System.in);
+
             System.out.println("");
             System.out.print("Qual operação você deseja realizar? ");
             option = scanner.nextInt();
 
             process(option);
 
-        } while(option !=0);
+        } while (option != 0);
     }
 
     public static void process(Integer option) throws Exception {
-        
+
         switch (option) {
             case 1: {
-                Scanner scanner= new Scanner(System.in);
+                Scanner scanner = new Scanner(System.in);
 
                 System.out.println("");
                 System.out.print("Qual a descrição que você deseja dar ao novo produto? ");
@@ -64,7 +60,7 @@ public class Main {
                 System.out.print("Qual a data da validade do produto? ");
                 String dataString = scanner.next();
                 Date dataValidade = new SimpleDateFormat("dd/MM/yyyy").parse(dataString);
-        
+
                 Produto novoProduto = new Produto(descricao, preco, dataValidade);
 
                 produtosDB.addNovoProduto(novoProduto);
@@ -73,14 +69,14 @@ public class Main {
             case 2: {
                 List<Produto> listaDeProdutos = produtosDB.getProdutosList();
                 System.out.println("--- LISTAGEM DE PRODUTOS ---");
-                for (Produto produto: listaDeProdutos) {
+                for (Produto produto : listaDeProdutos) {
                     System.out.println("ID do produto: " + produto.getId());
                     System.out.println("Descrição: " + produto.getDescricao());
                     System.out.println("Preço: " + produto.getPreco());
                     System.out.println("Preço arredondado: " + Math.round(produto.getPreco()));
                     System.out.println("Data de Validade: " + produto.getDataValidade());
                     Date hoje = new Date();
-                    if(produto.getDataValidade().before(hoje)) {
+                    if (produto.getDataValidade().before(hoje)) {
                         System.out.println("*** CUIDADO - SEU PRODUTO ESTÁ VENCIDO! ***");
                     }
                     System.out.println("--------------------");
@@ -88,7 +84,7 @@ public class Main {
                 break;
             }
             case 3: {
-                Scanner scanner= new Scanner(System.in);
+                Scanner scanner = new Scanner(System.in);
 
                 System.out.println("");
                 System.out.print("Qual o nome do usuário ADMINISTRADOR? ");
@@ -100,7 +96,7 @@ public class Main {
                 break;
             }
             case 4: {
-                Scanner scanner= new Scanner(System.in);
+                Scanner scanner = new Scanner(System.in);
 
                 System.out.println("");
                 System.out.print("Qual o nome do usuário CLIENTE? ");
@@ -114,7 +110,7 @@ public class Main {
             case 5: {
                 System.out.println("--- LISTA DE USUÁRIOS ---");
 
-                for(Usuario usuario: usuariosDB.getUsuarioList()) {
+                for (Usuario usuario : usuariosDB.getUsuarioList()) {
                     System.out.println("ID: " + usuario.getId());
                     System.out.println("NOME: " + usuario.getNome());
                     System.out.println("TIPO: " + usuario.getTipoUsuario());
@@ -150,7 +146,7 @@ public class Main {
             case 7: {
                 System.out.println("--- ESTOQUES CADASTRADOS ---");
 
-                for(Estoque estoque: estoqueDB.getEstoqueList()) {
+                for (Estoque estoque : estoqueDB.getEstoqueList()) {
                     System.out.println("ID: " + estoque.getId());
                     System.out.println("PRODUTO: " + estoque.getProduto().getDescricao());
                     System.out.println("PREÇO: " + estoque.getProduto().getPreco());
@@ -182,18 +178,26 @@ public class Main {
                 System.out.print("Informe a quantidade a ser vendida: ");
                 Integer quantidade = scanner.nextInt();
                 PedidoVenda novoPedido = new PedidoVenda(cliente, estoque, quantidade);
-                pedidosVendaDB.addNovoPedidoVendas(novoPedido);
+
+                ValidadorPedidoVenda validadorPedidoVenda = new ValidadorPedidoVenda(novoPedido);
+                if (validadorPedidoVenda.ehValido()) {
+                    pedidosVendaDB.addNovoPedidoVendas(novoPedido);
+                } else {
+                    System.out.println(validadorPedidoVenda.getErros());
+                }
+                
 
                 break;
             }
             case 9: {
                 System.out.println("--- LISTAGEM DE PEDIDOS DE VENDA ---");
-                for (PedidoVenda pedidoVenda: pedidosVendaDB.getPedidoVendas()) {
+                for (PedidoVenda pedidoVenda : pedidosVendaDB.getPedidoVendas()) {
                     System.out.println("ID do produto: " + pedidoVenda.getId());
                     System.out.println("Cliente: " + pedidoVenda.getCliente().getNome());
                     System.out.println("Produto: " + pedidoVenda.getEstoque().getProduto().getDescricao());
                     System.out.println("Quantidade: " + pedidoVenda.getQuantidade());
-                    //System.out.println("Valor Total: " + pedidoVenda.getEstoque().getProduto().getValorTotal());
+                    // System.out.println("Valor Total: " +
+                    // pedidoVenda.getEstoque().getProduto().getValorTotal());
                     System.out.println("--------------------");
                 }
                 break;
