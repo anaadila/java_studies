@@ -1,6 +1,7 @@
 import models.Admin;
 import models.Cliente;
 import models.Estoque;
+import models.PedidoVenda;
 import models.Produto;
 import models.Usuario;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import db.EstoqueDB;
+import db.PedidosVendaDB;
 import db.ProdutosDB;
 import db.UsuariosDB;
 
@@ -17,6 +19,7 @@ public class Main {
     static ProdutosDB produtosDB = new ProdutosDB();
     static UsuariosDB usuariosDB = new UsuariosDB();
     static EstoqueDB estoqueDB = new EstoqueDB();
+    static PedidosVendaDB pedidosVendaDB = new PedidosVendaDB();
     
     public static void main(String[] args) throws Exception {
         System.out.println("--- PEDIDO DE VENDAS ---");
@@ -32,6 +35,8 @@ public class Main {
             System.out.println("5 - Listar todos usuários cadastrados");
             System.out.println("6 - Cadastrar novo estoque de produtos");
             System.out.println("7 - Listar todos os estoques");
+            System.out.println("8 - Criar pedido de venda");
+            System.out.println("9 - Listar pedidos de venda");
             System.out.println("0 - Sair");
 
             Scanner scanner= new Scanner(System.in);
@@ -67,9 +72,8 @@ public class Main {
             }
             case 2: {
                 List<Produto> listaDeProdutos = produtosDB.getProdutosList();
-                System.out.println("--------------------");
+                System.out.println("--- LISTAGEM DE PRODUTOS ---");
                 for (Produto produto: listaDeProdutos) {
-                    
                     System.out.println("ID do produto: " + produto.getId());
                     System.out.println("Descrição: " + produto.getDescricao());
                     System.out.println("Preço: " + produto.getPreco());
@@ -155,13 +159,49 @@ public class Main {
                 }
                 break;
             }
+            case 8: {
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println("");
+                System.out.print("Informe o ID do cliente: ");
+                Integer idCliente = scanner.nextInt();
+                Cliente cliente = (Cliente) usuariosDB.getUsuarioPorID(idCliente);
+                System.out.println("ID: " + cliente.getId());
+                System.out.println("NOME: " + cliente.getNome());
+                System.out.println("TIPO: " + cliente.getTipoUsuario());
+                System.out.println("---");
+
+                System.out.print("Informe o ID do estoque: ");
+                String idEstoque = scanner.next();
+                Estoque estoque = estoqueDB.getEstoqueById(idEstoque);
+                System.out.println("Estoque ID: " + estoque.getId());
+                System.out.println("Produto Descrição: " + estoque.getProduto().getDescricao());
+                System.out.println("Produto Validade: " + estoque.getProduto().getDataValidade());
+                System.out.println("---");
+
+                System.out.print("Informe a quantidade a ser vendida: ");
+                Integer quantidade = scanner.nextInt();
+                PedidoVenda novoPedido = new PedidoVenda(cliente, estoque, quantidade);
+                pedidosVendaDB.addNovoPedidoVendas(novoPedido);
+
+                break;
+            }
+            case 9: {
+                System.out.println("--- LISTAGEM DE PEDIDOS DE VENDA ---");
+                for (PedidoVenda pedidoVenda: pedidosVendaDB.getPedidoVendas()) {
+                    System.out.println("ID do produto: " + pedidoVenda.getId());
+                    System.out.println("Cliente: " + pedidoVenda.getCliente().getNome());
+                    System.out.println("Produto: " + pedidoVenda.getEstoque().getProduto().getDescricao());
+                    System.out.println("Quantidade: " + pedidoVenda.getQuantidade());
+                    //System.out.println("Valor Total: " + pedidoVenda.getEstoque().getProduto().getValorTotal());
+                    System.out.println("--------------------");
+                }
+                break;
+            }
             default: {
                 System.out.println("\nOpção inválida.\nEscolha uma das opções listadas, por favor.\n");
                 break;
             }
         }
     }
-        
-
-
 }
